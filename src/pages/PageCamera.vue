@@ -1,6 +1,6 @@
 <template>
   <q-page class="constrain-more q-pa-md">
-    <div class="camera-frame q-pa-md">
+    <div class="constrain camera-frame q-pa-md">
       <video
       v-show="!imageCaptured"
       ref="video"
@@ -49,6 +49,7 @@
       </div>
       <div class="row justify-center q-ma-md">
         <q-input
+        :loading="locationLoading"
          v-model="post.location" 
          class="col col-sm-6"
          label="Location"
@@ -56,6 +57,8 @@
 
          <template v-slot:append>
           <q-btn 
+          v-if="!locationLoading"
+          @click="getLocation"
           round
           dense
           flat 
@@ -89,11 +92,18 @@ export default {
         caption:'',
         location:'',
         photo:null,
-        date:Date.now()
+        date:Date.now()  
       },
       imageCaptured:false,
       imageUpload:[],
-      hasCameraSuport:true
+      hasCameraSuport:true,
+      locationLoading:false
+    }
+  },
+  computed:{
+    locationSupported(){
+      if('geolocatio'in navigator)return true
+      return false
     }
   },
   methods:{
@@ -168,10 +178,40 @@ export default {
 
 
 },
-
+getLocation(){
+  
+  navigator.geolocation.getCurrentPosition(position=>{
+    this.getCityAndCountry(position)
+  },err =>{
+    this.locationError()
+  },{timeout:7000})
+},
+  getCityAndCountry(position){
+    let apiUrl=`https://geocode.xyz/${position.coords.latitude},${position.coords.longitude}?json=1`
+    this.$axios.get(apiUrl).then(result =>{
+      this.locationSuccess(result)
+    }).catch(err=>{
+    this.locationError()
+    })
+  },
+  locationSuccess(result){
+    this.post.location=result.data.city
+    if(result.data.country){
+      this.posts.location +=`,${result.data.country}`
+    }
+    this.locationLoading=false
+  },
+  locationError(){
+    this.$q.dialog({
+        title: 'Error',
+        message: 'Could not find your locaion'
+      })
+      this.locationLoading=false
+  }
 },
   mounted(){
     this.initCamera()
+  
   },
   beforeDestroy(){
     if(this.hasCameraSuport){

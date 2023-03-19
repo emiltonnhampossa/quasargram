@@ -112,8 +112,8 @@ export default {
     max-width: 975px
     margin: 0 auto
 
-    .constrain-more
-    max-width: 600px
+  .constrain-more
+    max-width:600px
     margin: 0 auto
 
         
