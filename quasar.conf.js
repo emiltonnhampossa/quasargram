@@ -7,7 +7,8 @@
 
 // Configuration for your app
 // https://v1.quasar.dev/quasar-cli/quasar-conf-js
-
+let API_LOCAL='http://localhost:3000'
+API_PRODUCTION='http://localhost:3000/posts'
 
 module.exports = function (/* ctx */) {
   return {
@@ -54,6 +55,9 @@ module.exports = function (/* ctx */) {
 
     // Full list of options: https://v1.quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
     build: {
+        env:{
+          API:API_LOCAL //API_LOCAL | API_PRODUCION
+        },
       vueRouterMode: 'hash', // available values: 'hash', 'history'
 
       // transpile: false,
