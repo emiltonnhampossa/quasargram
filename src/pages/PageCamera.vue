@@ -68,6 +68,7 @@
       </div>
       <div class="row justify-center q-mt-lg">
         <q-btn 
+        @click="addPost()"
         unelevated 
         rounded 
         color="primary" 
@@ -207,6 +208,18 @@ getLocation(){
         message: 'Could not find your locaion'
       })
       this.locationLoading=false
+  },
+  addPost(){
+    let formData = new FormData()
+    formData.append('id',this.post.id)
+    formData.append('caption',this.post.caption)
+    formData.append('location',this.post.location)
+    formData.append('file',this.post.photo.file,this.post.id + '.png')
+    this.$axios.posts(`${process.env.API }/createPost`,formData).then(Response=>{
+      console.log('response:',response)
+    }).catch(err=>{
+      console.log('err',err)
+    })
   }
 },
   mounted(){

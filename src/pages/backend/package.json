@@ -7,8 +7,7 @@
     "node": "18"
   },
   "scripts": {
-    "dev":"tsx src/index.ts",
-    "build":"tsup src",
+    "dev":"nodemon",
     "start": "nodemon index.js"
   },
   "author": "",
