@@ -14,9 +14,9 @@
       class="full-width"
       height="240">
     </canvas>
-      
 
-    
+
+
     </div>
     <div class="text-center q-pa-md">
       <q-btn
@@ -24,25 +24,25 @@
       @click="captureImage"
       round
       color="grey-10"
-      icon="eva-camera" 
+      icon="eva-camera"
       size="lg"
       />
-      <q-file 
+      <q-file
       v-else
-      outlined 
+      outlined
       v-model="imageUpload"
       @input="captureImageFallback"
       label="choose an image"
       accept="image/*"
       >
-      
+
         <template v-slot:prepend>
           <q-icon name="eva-attach-outline" />
         </template>
       </q-file>
       <div class="row justify-center q-ma-md">
         <q-input
-         v-model="post.caption" 
+         v-model="post.caption"
          class="col col-sm-6"
          label="Caption"
          dense />
@@ -50,34 +50,34 @@
       <div class="row justify-center q-ma-md">
         <q-input
         :loading="locationLoading"
-         v-model="post.location" 
+         v-model="post.location"
          class="col col-sm-6"
          label="Location"
          dense >
 
          <template v-slot:append>
-          <q-btn 
+          <q-btn
           v-if="!locationLoading"
           @click="getLocation"
           round
           dense
-          flat 
+          flat
           icon="eva-navigation-2-outline" />
         </template>
          </q-input>
       </div>
       <div class="row justify-center q-mt-lg">
-        <q-btn 
+        <q-btn
         @click="addPost()"
-        unelevated 
-        rounded 
-        color="primary" 
+        unelevated
+        rounded
+        color="primary"
         label="Post Image"
          />
       </div>
-      
+
     </div>
-    
+
   </q-page>
 </template>
 
@@ -93,7 +93,7 @@ export default {
         caption:'',
         location:'',
         photo:null,
-        date:Date.now()  
+        date:Date.now()
       },
       imageCaptured:false,
       imageUpload:[],
@@ -117,7 +117,7 @@ export default {
         this.hasCameraSuport=false
       })
     },
- 
+
   captureImage(){
     let video = this.$refs.video
     let canvas = this.$refs.canvas
@@ -180,7 +180,7 @@ export default {
 
 },
 getLocation(){
-  
+
   navigator.geolocation.getCurrentPosition(position=>{
     this.getCityAndCountry(position)
   },err =>{
@@ -214,17 +214,17 @@ getLocation(){
     formData.append('id',this.post.id)
     formData.append('caption',this.post.caption)
     formData.append('location',this.post.location)
-    formData.append('file',this.post.photo.file,this.post.id + '.png')
-    this.$axios.posts(`${process.env.API }/createPost`,formData).then(Response=>{
-      console.log('response:',response)
+    formData.append('date',this.post.date)
+    formData.append('file', this.post.photo, this.post.id + '.png')
+    this.$axios.post(`${process.env.API}/createPost`,formData).then(Response=>{
+      console.log('response:', response)
     }).catch(err=>{
       console.log('err',err)
     })
   }
 },
   mounted(){
-    this.initCamera()
-  
+    this.initCamera();
   },
   beforeDestroy(){
     if(this.hasCameraSuport){
@@ -238,4 +238,3 @@ getLocation(){
   border: 2px solid $grey-10
   border-radius: 10px
 </style>
- 

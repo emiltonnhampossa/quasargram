@@ -7,8 +7,8 @@
 
 // Configuration for your app
 // https://v1.quasar.dev/quasar-cli/quasar-conf-js
-let API_LOCAL='http://localhost:3000'
-API_PRODUCTION='https://backend-quasargram.vercel.app'
+let API_LOCAL='http://localhost:5000'
+API_PRODUCION='https://quasargram-backend.onrender.com'
 
 module.exports = function (/* ctx */) {
   return {
@@ -22,7 +22,7 @@ module.exports = function (/* ctx */) {
     // --> boot files are part of "main.js"
     // https://v1.quasar.dev/quasar-cli/boot-files
     boot: [
-      
+
       'axios',
     ],
 
@@ -34,7 +34,7 @@ module.exports = function (/* ctx */) {
     css: {
       preprocessorOptions: {
         sass: {
-          indentedSyntax: true 
+          indentedSyntax: true
         }
       }
     },
@@ -56,7 +56,7 @@ module.exports = function (/* ctx */) {
     // Full list of options: https://v1.quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
     build: {
         env:{
-          API:API_LOCAL  //API_LOCAL | API_PRODUCION
+          API:API_PRODUCION   // API_LOCAL |API_PRODUCION
         },
       vueRouterMode: 'hash', // available values: 'hash', 'history'
 

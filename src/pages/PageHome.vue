@@ -1,13 +1,13 @@
 <template>
   <q-page class="constrain q-pa-md">
     <div class="row q-col-gutter-lg">
-      <div class="col-12 col-sm-8"> 
+      <div class="col-12 col-sm-8">
       <template v-if="!loadingPosts && posts.length">
-        <q-card 
+        <q-card
     v-for="post in posts"
     :key="post.id"
-    class="card-post q-mb-md" 
-    flat 
+    class="card-post q-mb-md"
+    flat
     bordered>
       <q-item>
         <q-item-section avatar>
@@ -44,7 +44,7 @@
     <q-card flat bordered style="max-width: 300px">
       <q-item>
         <q-item-section avatar>
-          <q-skeleton type="QAvatar" animation="fade" />
+          <q-skeleton type="QAvatar" animation="fade" size="40px"/>
         </q-item-section>
 
         <q-item-section>
@@ -101,21 +101,19 @@ data(){
 },
 methods:{
   getPosts(){
-    setTimeout(()=>{
-      this.loadingPosts=true
-      this.$axios.get(`http://localhost:3000/posts`).then(response=>{
-      this.posts=response.data
-      this.loadingPosts=false
-      
-    }).catch(err=>{
-      this.$q.dialog({ 
-        title: 'Error',
-        message: 'Could not find your locaion'
+    this.loadingPosts=true
+      this.$axios.get(`${process.env.API}/posts`).then(response => {
+        this.posts = response.data
+        this.loadingPosts = false
+
+      }).catch(err => {
+        this.$q.dialog({
+          title: 'Error',
+          message: 'Could not find your locaion'
+        })
+        this.loadingPosts = false
       })
-      this.loadingPosts=false
-    })
-    },3000);
-  }
+    }
 },
 filters:{
   niceDate(value){
